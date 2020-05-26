@@ -1,0 +1,38 @@
+\documentclass{report}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtext}
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian, english]{babel}
+\usepackage{graphicx}
+
+\begin{document}
+
+
+\section*{Лабораторная работа №7. Задача Коши}
+Выполнил студент группы 427 Митрошин Николай Александрович
+\section*{Вариант №2}
+Решить методом Тейлора 3-го порядка задачу Коши $$y'' + y' + 2y = \cos(x)\exp(-2x), \quad y(0) = 1, y'(0) = 0, \quad x \in [0, 2]$$ с заданной относительной точностью 0.01. Требуется построение графиков решения $y(x), y'(x)$, а также фазовых траекторий. За своевременное выполнение задания начисляется 6 баллов.
+\section*{Теоретическая часть}
+Простейшим способом построения приближенного решения задачи Коши в точке $x_{n+1}$ сетки является способ, основанный на разложении решения в ряд Тейлора в предыдущей точке сетки $x_n$ по степеням шага $h$: $$y(x_{n+1}) = y(x_n) + h \varphi_p (x_n, y_n, h),$$ $$\varphi_p (x_n, y_n, h) = y'(x) + \cfrac{h}{2} y''(x) + \dots + \cfrac{h^{p-1}}{p!} y^{(p)}(x)$$При $p = 3$ получаем метод Тейлора 3-го порядка. Для каждой $i$-ой итерации будем искать $$\begin{cases} y_{i+1} = y_i + h y'_i + \cfrac{h^2}{2!}y''_i + \cfrac{h^3}{3!}y'''_i \\
+y'_{i+1} = y'_i + hy''_i + \cfrac{h^2}{2!}y'''_i + \cfrac{h^3}{3!}y^{(4)}_i \\
+y''_{i+1} = \cos(x)\exp(-2x) - y'_i - 2y_i \\
+y'''_{i+1} = \exp(-2x)(-2\cos(x) - \sin(x)) - y''_i - 2y'_i \\
+y^{(4)}_{i+1} = \exp(-2x)(3\cos(x) + 4\sin(x)) - y'''_i - 2y''_i
+\end{cases}$$ Шаг $h$ определяется из следующих соображений. Для начала положим $h = h_0$ и найдем $y_h = (y_0, y_1, \dots, y_{n-1})$ и $y'_h = (y'_0, y'_1, \dots, y'_{n-1})$. Затем удвоим шаг и найдем $y_{2h}$ и $y'_{2h}$. Будем повторять эти действия пока $\max(y_h - y_{2h}) \geq \varepsilon$ и $\max(y'_h - y'_{2h}) \geq \varepsilon$.
+\section*{Практическая часть}
+Функция void metod\_teylora(double h, double *y, double *dy) заполняет массивы y и dy найденным решением, функция double opt\_h(double eps) возвращает оптимальный шаг. Функция int main() выводит на экран величину шага h и записывает решение в файл sol.txt.
+\section*{Результаты}
+В результате работы программы было найденно решение задачи Коши. Оно представленно на рисунках ниже, где также проиллюстрирован фазовый портрет.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=12cm]{img1.png}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=12cm]{img2.png}
+\end{figure}
+\end{document}
+    
